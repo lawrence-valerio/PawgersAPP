@@ -63,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Form validation
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(RegisterActivity.this, R.id.et_fullName, RegexTemplate.NOT_EMPTY, R.string.invalidFullName);
         awesomeValidation.addValidation(RegisterActivity.this, R.id.et_dogNameEmail, RegexTemplate.NOT_EMPTY, R.string.invalid_name);
         awesomeValidation.addValidation(RegisterActivity.this, R.id.et_Password_Register, RegexTemplate.NOT_EMPTY, R.string.invalid_password);
         awesomeValidation.addValidation(RegisterActivity.this, R.id.et_Email_Register, RegexTemplate.NOT_EMPTY, R.string.empty_email);
@@ -105,8 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     HashMap<String, Object> userData = new HashMap<>();
                                     HashMap<String, String> dogData = new HashMap<>();
 
-                                    dogData.put("dogName", dogName);
-                                    dogData.put("dogBreed", dogBreed);
+                                    dogData.put(dogName, dogBreed);
 
                                     userData.put("name", fullName);
                                     userData.put("status", "I am a new user!");

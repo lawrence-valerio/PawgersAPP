@@ -1,9 +1,10 @@
 package com.example.pawgersapp;
 
 public class Users {
-    public String name;
-    public String image;
-    public String status;
+    private String name;
+    private String image;
+    private String status;
+    private dogs dogs;
 
     public Users(String name, String image, String status) {
         this.name = name;
@@ -13,6 +14,14 @@ public class Users {
 
     public Users(){
 
+    }
+
+    public com.example.pawgersapp.dogs getDogs() {
+        return dogs;
+    }
+
+    public void setDogs(com.example.pawgersapp.dogs dogs) {
+        this.dogs = dogs;
     }
 
     public String getName() {
