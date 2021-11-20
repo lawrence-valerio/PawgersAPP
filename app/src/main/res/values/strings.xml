@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">PawgersApp</string>
+    <string name="create_account">Create Account</string>
+    <string name="please_log_in">Please Log In</string>
+    <string name="login">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pawgers">Pawgers</string>
+    <string name="app_name">Final_Project</string>
+    <string name="splash_title">Pawgers</string>
+    <string name="signin_google_button">LOG IN WITH GOOGLE</string>
+    <string name="signin_email_button">LOG IN WITH EMAIL</string>
+    <string name="create_account_button">CREATE ACCOUNT</string>
+    <string name="register_button">REGISTER</string>
+    <string name="invalid_name">Dog name cannot be empty!</string>
+    <string name="invalid_password">Password cannot be empty!</string>
+    <string name="invalid_email">Email is not valid!</string>
+    <string name="invalid_breed">Breed cannot be empty!</string>
+    <string name="empty_email">Email cannot be empty!</string>
+    <string name="email_verification_error">Email is not verified!</string>
+    <string name="email_signin_error">Email or password is invalid!</string>
+</resources>

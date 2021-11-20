@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "901282696696",
+    "firebase_url": "https://appawgers-default-rtdb.firebaseio.com",
+    "project_id": "appawgers",
+    "storage_bucket": "appawgers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901282696696:android:079828f7185f02af051a0d",
+        "android_client_info": {
+          "package_name": "com.example.pawgersapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901282696696-vb5t4ve6qghhh2820dksve0fulphqfrh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJEjTruu-SA4wJFXAKQ-Ow1vSqDHR29X8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901282696696-vb5t4ve6qghhh2820dksve0fulphqfrh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
