@@ -1,6 +1,10 @@
 package com.example.pawgersapp;
 
+import com.google.firebase.database.Exclude;
+
 public class Users {
+    @Exclude
+    public String key;
     private String name;
     private String image;
     private String status;
@@ -14,6 +18,14 @@ public class Users {
 
     public Users(){
 
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getKey() {
+        return key;
     }
 
     public com.example.pawgersapp.dogs getDogs() {

@@ -2,10 +2,12 @@ package com.example.pawgersapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +24,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
-    TextView tvProfileName, tvStatus;
+    EditText otherName, otherDogName, otherBreed;
     ImageView ivProfileImage;
     Button btnAddFriend, btnDeclineRequest;
-    DatabaseReference databaseReference, friendRequestReference, friendsReference;
+    DatabaseReference databaseReference, friendRequestReference, friendsReference, usersReference;
     FirebaseAuth firebaseAuth;
     String userId, friendState, currentUid;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +41,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnAddFriend = findViewById(R.id.btnAddFriend);
         ivProfileImage = findViewById(R.id.ivProfilePicture);
-        tvProfileName = findViewById(R.id.tvOtherName);
-        tvStatus = findViewById(R.id.tvStatus);
+        otherName = findViewById(R.id.et_OtherName);
+        otherBreed = findViewById(R.id.et_otherBreed);
+        otherDogName = findViewById(R.id.et_otherDogName);
         btnDeclineRequest = findViewById(R.id.btn_declineRequest);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        usersReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference = FirebaseDatabase.getInstance()
                 .getReference("Users").child(userId);
         friendRequestReference = FirebaseDatabase.getInstance()
@@ -54,6 +59,10 @@ public class ProfileActivity extends AppCompatActivity {
         friendState = "not_friends";
 
         setData();
+
+        toolbar = findViewById(R.id.accountNavbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +126,8 @@ public class ProfileActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
+                                            usersReference.child(userId).child("friends").child(currentUid).setValue("true");
+                                            usersReference.child(currentUid).child("friends").child(userId).setValue("true");
                                             removeRequests("friends", "unfriend user");
                                         }
                                     });
@@ -155,6 +166,9 @@ public class ProfileActivity extends AppCompatActivity {
                 friendsReference.child(userId).child(currentUid).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        usersReference.child(userId).child("friends").child(currentUid).removeValue();
+                        usersReference.child(currentUid).child("friends").child(userId).removeValue();
+
                         btnAddFriend.setEnabled(true);
                         friendState = "not_friends";
                         btnAddFriend.setText("Add as friend");
@@ -169,11 +183,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child("name").getValue().toString();
-                String status = snapshot.child("status").getValue().toString();
+                String dogName = snapshot.child("dogs").child("dogName").getValue().toString();
+                String dogBreed = snapshot.child("dogs").child("dogBreed").getValue().toString();
                 String image = snapshot.child("image").getValue().toString();
 
-                tvProfileName.setText(name);
-                tvStatus.setText(status);
+                getSupportActionBar().setTitle(name + "'s profile");
+                otherName.setText(name);
+                otherDogName.setText(dogName);
+                otherBreed.setText(dogBreed);
 
                 if(!image.equals("default")){
                     Picasso.get().load(image).placeholder(R.drawable.default_picture).into(ivProfileImage);

@@ -65,20 +65,25 @@ public class EmailLoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
-                                        if(firebaseAuth.getCurrentUser().isEmailVerified()){
                                             Intent intent = new Intent(EmailLoginActivity.this, HomeActivity.class);
                                             startActivity(intent);
                                             finish();
                                             return;
-                                        }else{
-                                            awesomeValidation.addValidation(EmailLoginActivity.this, R.id.et_Email_Login, new SimpleCustomValidation() {
-                                                @Override
-                                                public boolean compare(String input) {
-                                                    return firebaseAuth.getCurrentUser().isEmailVerified();
-                                                }
-                                            }, R.string.email_verification_error);
-                                            awesomeValidation.validate();
-                                        }
+
+//                                        if(firebaseAuth.getCurrentUser().isEmailVerified()){
+//                                            Intent intent = new Intent(EmailLoginActivity.this, HomeActivity.class);
+//                                            startActivity(intent);
+//                                            finish();
+//                                            return;
+//                                        }else{
+//                                            awesomeValidation.addValidation(EmailLoginActivity.this, R.id.et_Email_Login, new SimpleCustomValidation() {
+//                                                @Override
+//                                                public boolean compare(String input) {
+//                                                    return firebaseAuth.getCurrentUser().isEmailVerified();
+//                                                }
+//                                            }, R.string.email_verification_error);
+//                                            awesomeValidation.validate();
+//                                        }
                                     }else{
                                         awesomeValidation.addValidation(EmailLoginActivity.this, R.id.et_Email_Login, new SimpleCustomValidation() {
                                             @Override

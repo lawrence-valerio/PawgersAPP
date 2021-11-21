@@ -3,21 +3,20 @@ package com.example.pawgersapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -33,35 +32,50 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.UUID;
 
 public class AccountSettingsActivity extends AppCompatActivity {
-    DatabaseReference databaseReference;
+    View loadingView;
+    ProgressBar loadingSpinner;
+    EditText etEmail, etDogName, etName;
+    AutoCompleteTextView atvBreed;
+    Button btnSaveChanges, btnUploadPicture, btnEditAccount;
+    FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
-    TextView tvName, tvStatus;
-    Button btnUpdateStatus, btnUpdatePicture;
-    static final int UPLOAD_CODE = 1;
-    StorageReference storageReference;
-    ProgressDialog progressDialog;
+    String currentUserUID;
+    Boolean editingCheck;
     ImageView ivProfilePicture;
+    static final int UPLOAD_CODE = 1;
+    ProgressDialog progressDialog;
+    DatabaseReference databaseReference;
+    StorageReference storageReference;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_settings);
 
-        tvName = findViewById(R.id.tv_settingsName);
-        tvStatus = findViewById(R.id.tv_settingsStatus);
-        btnUpdatePicture = findViewById(R.id.btn_changeImage);
-        btnUpdateStatus = findViewById(R.id.btn_changeStatus);
-        ivProfilePicture = findViewById(R.id.iv_settingsProfilePicture);
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        currentUserUID = currentUser.getUid();
+        btnSaveChanges = findViewById(R.id.btn_saveChanges);
+        etName = findViewById(R.id.account_fullName);
+        loadingSpinner = findViewById(R.id.account_loader);
+        loadingView = findViewById(R.id.account_loadingView);
+        atvBreed = findViewById(R.id.atv_accountBreed);
+        etDogName = findViewById(R.id.et_accountDogName);
+        etEmail = findViewById(R.id.et_emailAccount);
+        btnEditAccount = findViewById(R.id.btn_editInformation);
+        btnUploadPicture = findViewById(R.id.btn_UploadPicture);
+        ivProfilePicture = findViewById(R.id.iv_accountPicture);
+        editingCheck = false;
 
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        //Top navbar
+        toolbar = findViewById(R.id.accountNavbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("My Profile");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         storageReference = FirebaseStorage.getInstance().getReference();
 
         databaseReference = FirebaseDatabase
@@ -69,29 +83,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
                 .getReference("Users")
                 .child(currentUser.getUid());
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String image = snapshot.child("image").getValue().toString();
-                String name = snapshot.child("name").getValue().toString();
-                String status = snapshot.child("status").getValue().toString();
+        setData();
 
-                tvName.setText(name);
-                tvStatus.setText(status);
-                if(!image.equals("default")){
-                    Picasso.get().load(image).placeholder(R.drawable.default_picture).into(ivProfilePicture);
-                }else{
-                    ivProfilePicture.setImageResource(R.drawable.default_picture);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        btnUpdatePicture.setOnClickListener(new View.OnClickListener() {
+        btnUploadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent uploadPictureIntent = new Intent();
@@ -99,6 +93,65 @@ public class AccountSettingsActivity extends AppCompatActivity {
                 uploadPictureIntent.setAction(Intent.ACTION_GET_CONTENT);
 
                 startActivityForResult(Intent.createChooser(uploadPictureIntent, "Choose a picture"), UPLOAD_CODE);
+            }
+        });
+
+        btnEditAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(editingCheck.equals(false)){
+                    editingCheck = true;
+
+                    btnEditAccount.setText("Cancel");
+                    btnSaveChanges.setVisibility(View.VISIBLE);
+                    btnUploadPicture.setVisibility(View.VISIBLE);
+
+                    etName.setEnabled(true);
+                    etDogName.setEnabled(true);
+                    atvBreed.setEnabled(true);
+                }else{
+                    editingCheck = false;
+
+                    btnEditAccount.setText("Edit Information");
+                    btnSaveChanges.setVisibility(View.GONE);
+                    btnUploadPicture.setVisibility(View.GONE);
+
+                    etName.setEnabled(false);
+                    etDogName.setEnabled(false);
+                    atvBreed.setEnabled(false);
+                }
+
+            }
+        });
+    }
+
+    public void setData(){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Users user = snapshot.getValue(Users.class);
+                String name = user.getName();
+                String email = currentUser.getEmail();
+                String breed = user.getDogs().getDogBreed();
+                String image = user.getImage();
+
+                if(!image.equals("default")){
+                    Picasso.get().load(image).placeholder(R.drawable.default_picture).into(ivProfilePicture);
+                }else{
+                    ivProfilePicture.setImageResource(R.drawable.default_picture);
+                }
+                etName.setText(name);
+                etDogName.setText(user.getDogs().getDogName());
+                etEmail.setText(email);
+                atvBreed.setText(breed);
+
+                loadingView.setVisibility(View.INVISIBLE);
+                loadingSpinner.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

@@ -186,7 +186,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_Password_Register" />
 
-            <!--            <com.google.android.material.button.MaterialButton-->
+<!--            <com.google.android.material.button.MaterialButton-->
 <!--                android:id="@+id/btn_addNewDog"-->
 <!--                style="@style/Widget.MaterialComponents.Button.Icon"-->
 <!--                android:layout_width="48dp"-->

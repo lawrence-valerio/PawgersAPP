@@ -106,7 +106,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     HashMap<String, Object> userData = new HashMap<>();
                                     HashMap<String, String> dogData = new HashMap<>();
 
-                                    dogData.put(dogName, dogBreed);
+                                    dogData.put("dogBreed", dogBreed);
+                                    dogData.put("dogName", dogName);
 
                                     userData.put("name", fullName);
                                     userData.put("status", "I am a new user!");

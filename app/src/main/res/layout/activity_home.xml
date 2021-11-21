@@ -2,35 +2,36 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/appBarLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-<!--        <include-->
-<!--            android:id="@+id/topNavBar"-->
-<!--            layout="@layout/top_nav_layout" />-->
+            <include
+                android:id="@+id/accountNavbar"
+                layout="@layout/top_nav_layout" />
 
-<!--        <com.google.android.material.tabs.TabLayout-->
-<!--            android:id="@+id/main_tabs"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="#404040" />-->
+        </com.google.android.material.appbar.AppBarLayout>
 
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    <!--        <com.google.android.material.tabs.TabLayout-->
+    <!--            android:id="@+id/main_tabs"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="#404040" />-->
 
-<!--    <androidx.viewpager.widget.ViewPager-->
-<!--        android:id="@+id/tab_pager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />-->
+    <!--    <androidx.viewpager.widget.ViewPager-->
+    <!--        android:id="@+id/tab_pager"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />-->
 
     <FrameLayout
         android:id="@+id/fragment_container"
