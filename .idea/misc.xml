@@ -7,9 +7,12 @@
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/drawable/ic_baseline_chat_bubble_24.xml" value="0.21770833333333334" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.21770833333333334" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/drawable/ic_wave.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/drawable/message_background.xml" value="0.2046875" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/drawable/message_background_other.xml" value="0.2046875" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_account_settings.xml" value="0.25" />
-        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_chat.xml" value="0.1921875" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_chat.xml" value="0.22" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_email_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
@@ -19,6 +22,8 @@
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_start.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_users.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/chat_nav_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/chat_row.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_account.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_account2.xml" value="0.2015625" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_find_users.xml" value="0.25" />
@@ -27,7 +32,7 @@
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_messages.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_notifications.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_settings.xml" value="0.2015625" />
-        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/messages_row.xml" value="0.67" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/messages_row.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/row_add_dog.xml" value="0.2015625" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/top_nav_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/users_row.xml" value="0.5" />

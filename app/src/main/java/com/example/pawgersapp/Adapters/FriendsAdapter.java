@@ -2,7 +2,6 @@ package com.example.pawgersapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pawgersapp.ProfileActivity;
+import com.example.pawgersapp.ChatActivity;
 import com.example.pawgersapp.R;
-import com.example.pawgersapp.Users;
+import com.example.pawgersapp.POJO_Classes.Users;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +37,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.messages_row, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.chat_row, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(v);
 
         return viewHolder;
@@ -70,8 +69,10 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
                 holder.cvUser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(context, ProfileActivity.class);
+                        Intent intent = new Intent(context, ChatActivity.class);
                         intent.putExtra("userID", user.getKey());
+                        intent.putExtra("name", user.getName());
+                        intent.putExtra("image", user.getImage());
                         context.startActivity(intent);
                     }
                 });

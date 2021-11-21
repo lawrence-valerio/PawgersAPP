@@ -1,4 +1,4 @@
-package com.example.pawgersapp;
+package com.example.pawgersapp.POJO_Classes;
 
 import com.google.firebase.database.Exclude;
 
@@ -8,7 +8,7 @@ public class Users {
     private String name;
     private String image;
     private String status;
-    private dogs dogs;
+    private com.example.pawgersapp.POJO_Classes.dogs dogs;
 
     public Users(String name, String image, String status) {
         this.name = name;
@@ -28,11 +28,11 @@ public class Users {
         return key;
     }
 
-    public com.example.pawgersapp.dogs getDogs() {
+    public com.example.pawgersapp.POJO_Classes.dogs getDogs() {
         return dogs;
     }
 
-    public void setDogs(com.example.pawgersapp.dogs dogs) {
+    public void setDogs(com.example.pawgersapp.POJO_Classes.dogs dogs) {
         this.dogs = dogs;
     }
 

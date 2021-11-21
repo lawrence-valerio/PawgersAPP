@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pawgersapp.ProfileActivity;
 import com.example.pawgersapp.R;
-import com.example.pawgersapp.Users;
+import com.example.pawgersapp.POJO_Classes.Users;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -14,7 +14,8 @@
         android:theme="@style/Theme.PawgersApp">
         <activity
             android:name=".ChatActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".HomeActivity"/>
         <activity
             android:name=".SettingsActivity"
             android:exported="true" />

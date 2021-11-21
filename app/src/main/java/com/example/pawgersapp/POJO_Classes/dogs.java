@@ -1,4 +1,4 @@
-package com.example.pawgersapp;
+package com.example.pawgersapp.POJO_Classes;
 
 public class dogs {
     private String dogBreed;

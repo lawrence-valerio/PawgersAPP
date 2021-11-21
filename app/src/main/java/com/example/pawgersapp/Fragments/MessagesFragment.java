@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pawgersapp.Adapters.FriendsAdapter;
-import com.example.pawgersapp.Adapters.UsersAdapter;
 import com.example.pawgersapp.R;
-import com.example.pawgersapp.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
