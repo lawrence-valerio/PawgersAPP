@@ -49,12 +49,11 @@ public class ChatActivity extends AppCompatActivity {
     ImageButton btnSendMessage;
     ImageView ivProfile;
     FirebaseAuth firebaseAuth;
-    String currentUID, otherUid, name, image, lastString;
+    String currentUID, otherUid, name, image;
     RecyclerView recyclerView;
     List<Messages> messagesList;
     LinearLayoutManager linearLayoutManager;
     MessagesAdapter messagesAdapter;
-    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +113,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void getMessages() {
-        Query messageQuery = singleMessageRef;
+        DatabaseReference test = FirebaseDatabase.getInstance().getReference().child("Messages").child(currentUID).child(otherUid);
 
-        messageQuery.addChildEventListener(new ChildEventListener() {
+        test.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Messages message = snapshot.getValue(Messages.class);
