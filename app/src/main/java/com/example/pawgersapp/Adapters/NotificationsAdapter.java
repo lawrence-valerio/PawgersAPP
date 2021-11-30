@@ -65,7 +65,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                 if(!formatTime(userKey.toString()).equals("0 minutes ago")){
                     holder.tvTime.setText(formatTime(userKey.toString()));
                 }else{
-                    holder.tvTime.setText("");
+                    holder.tvTime.setText("A few seconds ago");
                 }
                 if(!snapshot.child("image").equals("default")){
                     Picasso.get().load(snapshot.child("image").getValue().toString()).placeholder(R.drawable.default_picture).into(holder.ivProfilePicture);

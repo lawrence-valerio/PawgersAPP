@@ -80,9 +80,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
                     holder.ivProfilePicture.setImageResource(R.drawable.default_picture);
                 }
 
-                holder.tvTime.setText("");
                 holder.tvName.setText(name);
-                holder.tvBreed.setText(dogBreed);
+//                holder.tvBreed.setText(dogBreed);
                 holder.cvUser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -93,6 +92,37 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
                         context.startActivity(intent);
                     }
                 });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Query query = messagesReference.orderByKey().limitToLast(1);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot messageSnapshot) {
+                if(messageSnapshot.exists()){
+                    for(DataSnapshot child : messageSnapshot.getChildren()){
+                        Messages messages = child.getValue(Messages.class);
+                        if(messages.getFrom().equals(currentUserId)){
+                            holder.tvBreed.setText("You: " + messages.getMessage());
+                        }else{
+                            holder.tvBreed.setText(messages.getMessage());
+                        }
+                        if(formatTime(messages.getTime()).equals("0 minutes ago")){
+                            holder.tvTime.setText("A few seconds ago");
+                        }else{
+                            holder.tvTime.setText(formatTime(messages.getTime()));
+                        }
+                    }
+                }else{
+                        holder.tvTime.setText("");
+                        holder.tvBreed.setText("Start a conversation!");
+                }
             }
 
             @Override
