@@ -14,7 +14,7 @@
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_account_settings.xml" value="0.25" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_chat.xml" value="0.22" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_email_login.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_home.xml" value="0.22" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_other_profile.xml" value="0.33" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_profile.xml" value="0.33" />
@@ -24,6 +24,7 @@
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/activity_users.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/chat_nav_layout.xml" value="0.33" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/chat_row.xml" value="0.33" />
+        <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/drawer_header.xml" value="0.5" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/empty_notifications.xml" value="0.22" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_account.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Lawrence/Documents/bit_term_5/mobile_dev/PawgersApp/app/src/main/res/layout/fragment_account2.xml" value="0.2015625" />

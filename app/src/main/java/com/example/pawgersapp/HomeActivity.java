@@ -11,13 +11,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.pawgersapp.Fragments.FindUsersFragment;
 import com.example.pawgersapp.Fragments.MessagesFragment;
 import com.example.pawgersapp.Fragments.NotificationsFragment;
+import com.example.pawgersapp.POJO_Classes.Users;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
@@ -27,6 +37,10 @@ public class HomeActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    TextView drawerName, drawerEmail;
+    ImageView drawerImage;
+    View header;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +50,32 @@ public class HomeActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
+        header = navigationView.getHeaderView(0);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.getCurrentUser().getUid());
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Users user = snapshot.getValue(Users.class);
+
+                drawerName = header.findViewById(R.id.tv_drawerName);
+                drawerImage = header.findViewById(R.id.iv_drawerImage);
+                drawerEmail = header.findViewById(R.id.tv_drawerEmail);
+                drawerName.setText(user.getName());
+                drawerEmail.setText(firebaseAuth.getCurrentUser().getEmail());
+                if(!user.getImage().equals("default")){
+                    Picasso.get().load(user.getImage()).placeholder(R.drawable.default_picture).into(drawerImage);
+                }else{
+                    drawerImage.setImageResource(R.drawable.default_picture);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //Top navbar
         topNavbar = findViewById(R.id.accountNavbar);
