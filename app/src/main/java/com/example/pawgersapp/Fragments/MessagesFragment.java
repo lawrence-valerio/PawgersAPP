@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.pawgersapp.Adapters.FriendsAdapter;
 import com.example.pawgersapp.R;
@@ -28,6 +29,7 @@ public class MessagesFragment extends Fragment {
     RecyclerView recyclerView;
     List<String> friends;
     FirebaseAuth firebaseAuth;
+    TextView noMessages;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +39,7 @@ public class MessagesFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        noMessages = view.findViewById(R.id.tv_noMessages);
 
         DatabaseReference friendsReference = FirebaseDatabase
                 .getInstance()
@@ -51,10 +54,19 @@ public class MessagesFragment extends Fragment {
                     friends.add(dataSnapshot.getKey());
                 }
 
-                recyclerView = view.findViewById(R.id.rv_messageList);
-                FriendsAdapter friendsAdapter = new FriendsAdapter(getContext(), friends);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(friendsAdapter);
+                if(friends.size() == 0){
+                    noMessages.setVisibility(View.VISIBLE);
+                    recyclerView = view.findViewById(R.id.rv_messageList);
+                    FriendsAdapter friendsAdapter = new FriendsAdapter(getContext(), friends);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(friendsAdapter);
+                }else{
+                    noMessages.setVisibility(View.GONE);
+                    recyclerView = view.findViewById(R.id.rv_messageList);
+                    FriendsAdapter friendsAdapter = new FriendsAdapter(getContext(), friends);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(friendsAdapter);
+                }
             }
 
             @Override

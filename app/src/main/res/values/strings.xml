@@ -19,4 +19,6 @@
     <string name="email_verification_error">Email is not verified!</string>
     <string name="email_signin_error">Email or password is invalid!</string>
     <string name="invalidFullName">Name cannot be empty!</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 </resources>

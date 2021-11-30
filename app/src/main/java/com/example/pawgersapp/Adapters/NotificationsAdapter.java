@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pawgersapp.POJO_Classes.Users;
 import com.example.pawgersapp.ProfileActivity;
 import com.example.pawgersapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     Context context;
     List<Map> userKeys;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+    DatabaseReference requestReference = FirebaseDatabase.getInstance().getReference("Friend_Requests");
+    FirebaseAuth firebaseAuth;
 
     public NotificationsAdapter(Context context, List<Map> userKeys){
         this.userKeys = userKeys;
@@ -54,6 +57,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        String currentUID = FirebaseAuth.getInstance().getUid();
+
         Map userKey = userKeys.get(position);
 
         String key = userKey.get("user").toString();
@@ -62,11 +67,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 holder.tvNotification.setText(snapshot.child("name").getValue().toString() + " has sent you a friend request!");
-                if(!formatTime(userKey.toString()).equals("0 minutes ago")){
-                    holder.tvTime.setText(formatTime(userKey.toString()));
-                }else{
-                    holder.tvTime.setText("A few seconds ago");
-                }
                 if(!snapshot.child("image").equals("default")){
                     Picasso.get().load(snapshot.child("image").getValue().toString()).placeholder(R.drawable.default_picture).into(holder.ivProfilePicture);
                 }else{
@@ -80,6 +80,25 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                         context.startActivity(intent);
                     }
                 });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        requestReference.child(currentUID).child(key).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String time = snapshot.child("time").getValue().toString();
+                    if(!formatTime(time).equals("0 minutes ago")){
+                        holder.tvTime.setText(formatTime(time));
+                    }else{
+                        holder.tvTime.setText("A few seconds ago");
+                    }
+                }
             }
 
             @Override

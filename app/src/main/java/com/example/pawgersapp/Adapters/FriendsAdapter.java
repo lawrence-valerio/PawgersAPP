@@ -109,9 +109,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
                     for(DataSnapshot child : messageSnapshot.getChildren()){
                         Messages messages = child.getValue(Messages.class);
                         if(messages.getFrom().equals(currentUserId)){
-                            holder.tvBreed.setText("You: " + messages.getMessage());
+                            holder.tvBreed.setText("You: " + formatMessage(messages.getMessage()));
                         }else{
-                            holder.tvBreed.setText(messages.getMessage());
+                            holder.tvBreed.setText(formatMessage(messages.getMessage()));
                         }
                         if(formatTime(messages.getTime()).equals("0 minutes ago")){
                             holder.tvTime.setText("A few seconds ago");
@@ -164,5 +164,10 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
         String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
 
         return niceDateStr;
+    }
+
+    private String formatMessage(String message){
+        if(message.length() <= 30) return message;
+        return message.substring(0, 27) + "..." ;
     }
 }

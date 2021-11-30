@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.pawgersapp.Adapters.NotificationsAdapter;
 import com.example.pawgersapp.POJO_Classes.Users;
@@ -33,6 +34,7 @@ public class NotificationsFragment extends Fragment {
     RecyclerView recyclerView;
     List<Map> userKeys;
     FirebaseAuth firebaseAuth;
+    TextView noNotifs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +44,7 @@ public class NotificationsFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         String currentUserId = firebaseAuth.getCurrentUser().getUid();
+        noNotifs = view.findViewById(R.id.tv_noNotifications);
 
         DatabaseReference userFriendRequestRef = FirebaseDatabase.getInstance().getReference("Friend_Requests").child(currentUserId);
 
@@ -58,11 +61,19 @@ public class NotificationsFragment extends Fragment {
                         userKeys.add(requestData);
                     }
                 }
-
-                recyclerView = view.findViewById(R.id.rv_notificationList);
-                NotificationsAdapter notificationsAdapter = new NotificationsAdapter(getContext(), userKeys);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(notificationsAdapter);
+                if(userKeys.size() == 0){
+                    noNotifs.setVisibility(View.VISIBLE);
+                    recyclerView = view.findViewById(R.id.rv_notificationList);
+                    NotificationsAdapter notificationsAdapter = new NotificationsAdapter(getContext(), userKeys);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(notificationsAdapter);
+                }else{
+                    noNotifs.setVisibility(View.GONE);
+                    recyclerView = view.findViewById(R.id.rv_notificationList);
+                    NotificationsAdapter notificationsAdapter = new NotificationsAdapter(getContext(), userKeys);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.setAdapter(notificationsAdapter);
+                }
             }
 
             @Override

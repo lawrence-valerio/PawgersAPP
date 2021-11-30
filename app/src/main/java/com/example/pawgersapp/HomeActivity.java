@@ -1,8 +1,10 @@
 package com.example.pawgersapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
@@ -14,6 +16,7 @@ import com.example.pawgersapp.Fragments.FindUsersFragment;
 import com.example.pawgersapp.Fragments.MessagesFragment;
 import com.example.pawgersapp.Fragments.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
@@ -21,6 +24,9 @@ public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     Fragment currentFragment;
     Toolbar topNavbar;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +34,37 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
 
         //Top navbar
         topNavbar = findViewById(R.id.accountNavbar);
         setSupportActionBar(topNavbar);
         getSupportActionBar().setTitle("Pawgers");
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getItemId() == R.id.mi_settings){
+                    Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
+
+                if(item.getItemId() == R.id.mi_account){
+                    Intent intent = new Intent(HomeActivity.this, AccountSettingsActivity.class);
+                    startActivity(intent);
+                }
+
+                return true;
+            }
+        });
 
         //Bottom Nav
         currentFragment = new NotificationsFragment();
@@ -67,29 +99,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        if(item.getItemId() == R.id.mi_settings){
-            Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
         }
 
-        if(item.getItemId() == R.id.mi_account){
-            Intent intent = new Intent(HomeActivity.this, AccountSettingsActivity.class);
-            startActivity(intent);
-        }
-
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
