@@ -42,7 +42,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
     Button btnSaveChanges, btnUploadPicture, btnEditAccount;
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
-    String currentUserUID;
+    String currentUserUID, name, dogName, breed, email;
     Boolean editingCheck;
     ImageView ivProfilePicture;
     static final int UPLOAD_CODE = 1;
@@ -111,19 +111,38 @@ public class AccountSettingsActivity extends AppCompatActivity {
                     etDogName.setEnabled(true);
                     atvBreed.setEnabled(true);
                 }else{
-                    editingCheck = false;
-
-                    btnEditAccount.setText("Edit Information");
-                    btnSaveChanges.setVisibility(View.GONE);
-                    btnUploadPicture.setVisibility(View.GONE);
-
-                    etName.setEnabled(false);
-                    etDogName.setEnabled(false);
-                    atvBreed.setEnabled(false);
+                    cancelEditing();
                 }
 
             }
         });
+
+        btnSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                name = etName.getText().toString();
+                dogName = etDogName.getText().toString();
+                breed = atvBreed.getText().toString();
+
+                databaseReference.child("name").setValue(name);
+                databaseReference.child("dogs").child("dogBreed").setValue(breed);
+                databaseReference.child("dogs").child("dogName").setValue(dogName);
+
+                cancelEditing();
+            }
+        });
+    }
+
+    public void cancelEditing(){
+        editingCheck = false;
+
+        btnEditAccount.setText("Edit Information");
+        btnSaveChanges.setVisibility(View.GONE);
+        btnUploadPicture.setVisibility(View.GONE);
+
+        etName.setEnabled(false);
+        etDogName.setEnabled(false);
+        atvBreed.setEnabled(false);
     }
 
     public void setData(){

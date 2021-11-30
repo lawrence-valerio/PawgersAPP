@@ -52,9 +52,9 @@ public class MessagesFragment extends Fragment {
                 }
 
                 recyclerView = view.findViewById(R.id.rv_messageList);
-                FriendsAdapter usersAdapter = new FriendsAdapter(getContext(), friends);
+                FriendsAdapter friendsAdapter = new FriendsAdapter(getContext(), friends);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(usersAdapter);
+                recyclerView.setAdapter(friendsAdapter);
             }
 
             @Override

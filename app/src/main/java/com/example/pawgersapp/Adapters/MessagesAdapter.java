@@ -3,6 +3,7 @@ package com.example.pawgersapp.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.installations.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class MessagesAdapter extends RecyclerView.Adapter{
@@ -93,21 +99,27 @@ public class MessagesAdapter extends RecyclerView.Adapter{
     }
 
     private class SentMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText;
+        TextView messageText, time;
 
         SentMessageHolder(View itemView) {
             super(itemView);
 
             messageText = itemView.findViewById(R.id.tv_messageRow);
+            time = itemView.findViewById(R.id.tv_time);
         }
 
         void bind(Messages message) {
             messageText.setText(message.getMessage());
+            if(!formatTime(message.getTime()).equals("0 minutes ago")){
+                time.setText(formatTime(message.getTime()));
+            }else{
+                time.setText("");
+            }
         }
     }
 
     private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
-        TextView messageText;
+        TextView messageText, time;
         ImageView profileImage;
 
         ReceivedMessageHolder(View itemView) {
@@ -115,10 +127,16 @@ public class MessagesAdapter extends RecyclerView.Adapter{
 
             messageText = itemView.findViewById(R.id.tv_messageOther);
             profileImage = itemView.findViewById(R.id.iv_messageRowPicture);
+            time = itemView.findViewById(R.id.tv_timeOther);
         }
 
         void bind(Messages message) {
             messageText.setText(message.getMessage());
+            if(!formatTime(message.getTime()).equals("0 minutes ago")){
+                time.setText(formatTime(message.getTime()));
+            }else{
+                time.setText("");
+            }
 
             if(!image.equals("default")){
                 Picasso.get().load(image).placeholder(R.drawable.default_picture).into(profileImage);
@@ -127,91 +145,19 @@ public class MessagesAdapter extends RecyclerView.Adapter{
             }
         }
     }
+
+    private String formatTime(String time){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("CST"));
+        Date date = null;
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String niceDateStr = (String) DateUtils.getRelativeTimeSpanString(date.getTime() , Calendar.getInstance().getTimeInMillis(), DateUtils.MINUTE_IN_MILLIS);
+
+        return niceDateStr;
+    }
+
 }
-
-
-//public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder>{
-//    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
-//    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
-//    List<Messages> messages;
-//    DatabaseReference userReference;
-//    FirebaseAuth firebaseAuth;
-//    String image;
-//
-//    public MessagesAdapter(List<Messages> messages, String image) {
-//        this.image = image;
-//        this.messages = messages;
-//    }
-//
-//    @Override
-//    public int getItemViewType(int position) {
-//        Messages message = messages.get(position);
-//        firebaseAuth = FirebaseAuth.getInstance();
-//
-//        if (message.getFrom().equals(firebaseAuth.getUid())) {
-//            // If the current user is the sender of the message
-//            return VIEW_TYPE_MESSAGE_SENT;
-//        } else {
-//            // If some other user sent the message
-//            return VIEW_TYPE_MESSAGE_RECEIVED;
-//        }
-//    }
-//
-//    @NonNull
-//    @Override
-//    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View v;
-//
-//        if (viewType == VIEW_TYPE_MESSAGE_SENT) {
-//            v = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.messages_row, parent, false);
-//            return new MyViewHolder(v);
-//        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
-//            v = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.messages_row_other, parent, false);
-//            return new MyViewHolder(v);
-//        }
-//
-//        return null;
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        String currentUid = firebaseAuth.getCurrentUser().getUid();
-//        String from = messages.get(position).getFrom();
-//        String message = messages.get(position).getMessage();
-//
-//        if(from.equals(currentUid)){
-////            holder.ivProfilePicture.setVisibility(View.INVISIBLE);
-////            holder.tvMessageOther.setVisibility(View.INVISIBLE);
-//            holder.tvMessage.setText(message);
-//        }else{
-////            holder.tvMessage.setVisibility(View.INVISIBLE);
-//            if(!image.equals("default")){
-//                Picasso.get().load(image).placeholder(R.drawable.default_picture).into(holder.ivProfilePicture);
-//            }else{
-//                holder.ivProfilePicture.setImageResource(R.drawable.default_picture);
-//            }
-//
-//            holder.tvMessageOther.setText(message);
-//        }
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return messages.size();
-//    }
-//
-//    public static class MyViewHolder extends RecyclerView.ViewHolder{
-//    TextView tvMessage, tvMessageOther;
-//    ImageView ivProfilePicture;
-//
-//    public MyViewHolder(@NonNull View itemView) {
-//        super(itemView);
-//        tvMessage = itemView.findViewById(R.id.tv_messageRow);
-//        tvMessageOther = itemView.findViewById(R.id.tv_messageOther);
-//        ivProfilePicture = itemView.findViewById(R.id.iv_messageRowPicture);
-//    }
-//}
-//}

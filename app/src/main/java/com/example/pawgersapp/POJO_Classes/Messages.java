@@ -3,9 +3,9 @@ package com.example.pawgersapp.POJO_Classes;
 public class Messages {
     private String message, from;
     private boolean seen;
-    private long time;
+    private String time;
 
-    public Messages(String message, String from, boolean seen, long time) {
+    public Messages(String message, String from, boolean seen, String time) {
         this.message = message;
         this.from = from;
         this.seen = seen;
@@ -40,11 +40,11 @@ public class Messages {
         this.seen = seen;
     }
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

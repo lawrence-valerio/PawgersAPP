@@ -20,14 +20,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     EditText otherName, otherDogName, otherBreed;
     ImageView ivProfileImage;
     Button btnAddFriend, btnDeclineRequest;
-    DatabaseReference databaseReference, friendRequestReference, friendsReference, usersReference;
+    DatabaseReference databaseReference, friendRequestReference, friendsReference, usersReference, messagesReference;
     FirebaseAuth firebaseAuth;
     String userId, friendState, currentUid;
     Toolbar toolbar;
@@ -54,6 +58,8 @@ public class ProfileActivity extends AppCompatActivity {
                 .getReference("Friend_Requests");
         friendsReference = FirebaseDatabase.getInstance()
                 .getReference("Friends");
+        messagesReference = FirebaseDatabase.getInstance()
+                .getReference("Messages");
         currentUid = firebaseAuth.getCurrentUser().getUid();
 
         friendState = "not_friends";
@@ -82,32 +88,36 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void requestStateCheck(){
         if(friendState.equals("not_friends")){
+            Map requestMap = new HashMap();
+            requestMap.put("time", java.time.Clock.systemUTC().instant().toString());
+            requestMap.put("request_type", "sent");
+
             friendRequestReference
                     .child(currentUid)
-                    .child(userId)
-                    .child("request_type")
-                    .setValue("sent").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    .child(userId).setValue(requestMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
+                    if(task.isSuccessful()) {
+                        Map requestMap = new HashMap();
+                        requestMap.put("time", java.time.Clock.systemUTC().instant().toString());
+                        requestMap.put("request_type", "received");
+
                         friendRequestReference
                                 .child(userId)
-                                .child(currentUid)
-                                .child("request_type")
-                                .setValue("received").addOnSuccessListener(new OnSuccessListener<Void>() {
+                                .child(currentUid).setValue(requestMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onSuccess(Void unused) {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    friendState = "request_sent";
+                                    btnAddFriend.setText("Cancel Friend Request");
 
-                                friendState = "request_sent";
-                                btnAddFriend.setText("Cancel Friend Request");
-
-                                Toast.makeText(ProfileActivity.this, "Friend Request has been sent", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ProfileActivity.this, "Friend Request has been sent", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                     }else{
                         Toast.makeText(ProfileActivity.this, "Failed sending request", Toast.LENGTH_SHORT).show();
                     }
-
                     btnAddFriend.setEnabled(true);
                 }
             });
@@ -168,6 +178,9 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         usersReference.child(userId).child("friends").child(currentUid).removeValue();
                         usersReference.child(currentUid).child("friends").child(userId).removeValue();
+
+                        messagesReference.child(currentUid).child(userId).removeValue();
+                        messagesReference.child(userId).child(currentUid).removeValue();
 
                         btnAddFriend.setEnabled(true);
                         friendState = "not_friends";

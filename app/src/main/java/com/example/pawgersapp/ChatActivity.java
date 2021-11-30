@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -172,6 +175,29 @@ public class ChatActivity extends AppCompatActivity {
         actionBar.setCustomView(navbarView);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.friend_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if(item.getItemId() == R.id.mi_friendProfile){
+            Intent intent = new Intent(ChatActivity.this, ProfileActivity.class);
+            intent.putExtra("userID", otherUid);
+            startActivity(intent);
+        }
+
+        return true;
+    }
+
+
     private void sendMessage() {
         String message = etChatBox.getText().toString();
 
@@ -183,7 +209,7 @@ public class ChatActivity extends AppCompatActivity {
             Map messageMap = new HashMap();
             messageMap.put("message", message);
             messageMap.put("seen", false);
-            messageMap.put("time", ServerValue.TIMESTAMP);
+            messageMap.put("time", java.time.Clock.systemUTC().instant().toString());
             messageMap.put("from", currentUID);
 
             currentUserRef.push().setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
